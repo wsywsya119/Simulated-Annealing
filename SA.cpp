@@ -12,9 +12,10 @@ using namespace std;
 void SA(vector<centerPoint> &center, vector<dataPoint> &data, int amountCluster, int dimention, int tempurature)
 {
 	int ran=0;
-	double result=0,resultPre=numeric_limits<double>::max();
+	double result=0,resultPre=numeric_limits<double>::max(),resultBest=0;
 	double diff=0,prob=0;
-	vector<centerPoint> keep;
+	double ran2=0;
+	vector<centerPoint> keep,keepBest;
 
 	for(int j=0;j<amountCluster;j++)
 	{
@@ -36,20 +37,25 @@ void SA(vector<centerPoint> &center, vector<dataPoint> &data, int amountCluster,
 
 		diff = result - resultPre;
 
+		cout<<"Result: "<<result<<endl;
+
 		if(diff < 0)
 		{
-			resultPre = result;
+			resultBest = resultPre = result;
 			center = keep;
 		}
 		else
 		{
-			prob = exp((-1*diff)/tempurature);
-			ran = (double)rand()/(double)RAND_MAX;
-			if(ran >= prob)
+			prob = exp((-5*(diff))/tempurature);
+			ran2 = (double)rand()/(double)RAND_MAX;
+			cout<<"prob: "<<prob<<" ran: "<<ran2<<endl;
+			if(ran2 <= prob)
 			{
+
 				resultPre = result;
 				center = keep;
 			}
 		}
+		cout<<"Keeping Result: "<<resultBest<<endl;
 	}
 }
